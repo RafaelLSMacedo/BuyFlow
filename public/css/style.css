@@ -1,0 +1,109 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.bf-header, .bf-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #0f172a;
+  color: #f9fafb;
+}
+
+.bf-nav a {
+  color: #e5e7eb;
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+.bf-nav a:hover {
+  text-decoration: underline;
+}
+
+.bf-main {
+  padding: 20px;
+}
+
+.bf-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.bf-tabela th,
+.bf-tabela td {
+  border: 1px solid #e5e7eb;
+  padding: 8px;
+  text-align: left;
+}
+
+.bf-filtros {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.bf-filtros div {
+  display: flex;
+  flex-direction: column;
+}
+.bf-kpis {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.bf-card {
+  background: #0f172a;
+  color: #f9fafb;
+  padding: 20px 30px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.bf-card-label {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.bf-card-valor {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+section {
+  margin-bottom: 40px;
+}
+.bf-tabela tr td:first-child {
+  font-weight: bold;
+}
+
+.bf-tabela tr td:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+
+.bf-tabela tr td:first-child:contains("A")::before {
+  background: #ef4444; /* vermelho */
+}
+
+.bf-tabela tr td:first-child:contains("B")::before {
+  background: #f59e0b; /* amarelo */
+}
+
+.bf-tabela tr td:first-child:contains("C")::before {
+  background: #22c55e; /* verde */
+}

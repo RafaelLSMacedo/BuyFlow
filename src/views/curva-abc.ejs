@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Curva ABC - BuyFlow</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <%- include('./partials/header') %>
+
+  <main class="bf-main">
+    <h2>Curva ABC de Vendas</h2>
+
+    <form method="GET" action="/vendas/curva-abc" class="bf-filtros">
+      <label for="periodo">Período:</label>
+      <select name="periodo" id="periodo">
+        <option value="7d" <%= periodo === "7d" ? "selected" : "" %>>Últimos 7 dias</option>
+        <option value="30d" <%= periodo === "30d" ? "selected" : "" %>>Últimos 30 dias</option>
+        <option value="90d" <%= periodo === "90d" ? "selected" : "" %>>Últimos 90 dias</option>
+        <option value="12m" <%= periodo === "12m" ? "selected" : "" %>>Últimos 12 meses</option>
+      </select>
+      <button type="submit">Aplicar</button>
+    </form>
+
+    <section>
+      <h3>Resumo</h3>
+      <ul>
+        <li>Total de itens na curva: <%= resumo.totalItens %></li>
+        <li>Classe A (% do faturamento): <%= resumo.classeA_percentual.toFixed(2) %>%</li>
+        <li>Classe B (% do faturamento): <%= resumo.classeB_percentual.toFixed(2) %>%</li>
+        <li>Classe C (% do faturamento): <%= resumo.classeC_percentual.toFixed(2) %>%</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Itens por Classe</h3>
+
+      <% if (!itens || itens.length === 0) { %>
+        <p>Ainda não há dados para a Curva ABC neste período.</p>
+      <% } else { %>
+        <table class="bf-tabela">
+          <thead>
+            <tr>
+              <th>Classe</th>
+              <th>Código</th>
+              <th>Produto</th>
+              <th>Categoria</th>
+              <th>Qtd Vendida</th>
+              <th>Faturamento (R$)</th>
+              <th>% do Faturamento</th>
+              <th>% Acumulado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% itens.forEach(function(item) { %>
+              <tr>
+                <td><%= item.classe %></td>
+                <td><%= item.codigo %></td>
+                <td><%= item.nomeProduto %></td>
+                <td><%= item.categoria %></td>
+                <td><%= Number(item.quantidade).toFixed(2) %></td>
+                <td><%= Number(item.faturamento).toFixed(2) %></td>
+                <td><%= Number(item.percentual).toFixed(2) %>%</td>
+                <td><%= Number(item.percentualAcumulado).toFixed(2) %>%</td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </section>
+  </main>
+
+  <%- include('./partials/footer') %>
+</body>
+</html>

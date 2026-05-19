@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senha     String
+  papel     String   @default("vendedor")
+  ativo     Boolean  @default(true)
+  criadoEm DateTime @default(now())
+
+  @@map("usuarios")
+}
+
+model Produto {
+  id         Int      @id @default(autoincrement())
+  codigo     String   @unique
+  nome       String
+  categoria  String?
+  unidade    String   @default("UN")
+  ativo      Boolean  @default(true)
+  criadoEm  DateTime @default(now())
+
+  itensVenda ItemVenda[]
+
+  @@map("produtos")
+}
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  documento String?  @unique
+  email     String?
+  telefone  String?
+  cidade    String?
+  estado    String?
+  ativo     Boolean  @default(true)
+  criadoEm DateTime @default(now())
+
+  vendas Venda[]
+
+  @@map("clientes")
+}
+
+model Venda {
+  id             Int      @id @default(autoincrement())
+  numero         String   @unique
+  clienteId      Int?
+  cliente        Cliente? @relation(fields: [clienteId], references: [id])
+  status         String   @default("concluida")
+  formaPagamento String?
+  desconto       Float    @default(0)
+  totalBruto     Float
+  totalLiquido   Float
+  criadoEm      DateTime @default(now())
+  dataVenda      DateTime @default(now())
+
+  itens ItemVenda[]
+
+  @@map("vendas")
+}
+
+model ItemVenda {
+  id         Int     @id @default(autoincrement())
+  vendaId    Int
+  venda      Venda   @relation(fields: [vendaId], references: [id])
+  produtoId  Int
+  produto    Produto @relation(fields: [produtoId], references: [id])
+  quantidade Float
+  precoUnit  Float
+  desconto   Float   @default(0)
+  total      Float
+
+  @@map("itens_venda")
+}

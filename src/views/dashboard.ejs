@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard - BuyFlow</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <%- include('./partials/header') %>
+
+  <main class="bf-main">
+    <h2>Dashboard — últimos 30 dias</h2>
+
+    <section class="bf-kpis">
+      <div class="bf-card">
+        <span class="bf-card-label">Total de vendas</span>
+        <span class="bf-card-valor"><%= kpis.totalVendas %></span>
+      </div>
+      <div class="bf-card">
+        <span class="bf-card-label">Faturamento total</span>
+        <span class="bf-card-valor">R$ <%= Number(kpis.faturamentoTotal).toFixed(2) %></span>
+      </div>
+      <div class="bf-card">
+        <span class="bf-card-label">Ticket médio</span>
+        <span class="bf-card-valor">R$ <%= Number(kpis.ticketMedio).toFixed(2) %></span>
+      </div>
+    </section>
+
+    <section>
+      <h3>Top 5 produtos (faturamento)</h3>
+
+      <% if (topProdutos.length === 0) { %>
+        <p>Nenhum dado encontrado nos últimos 30 dias.</p>
+      <% } else { %>
+        <table class="bf-tabela">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Produto</th>
+              <th>Qtd. Vendida</th>
+              <th>Faturamento (R$)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% topProdutos.forEach(function(p) { %>
+              <tr>
+                <td><%= p.codigo %></td>
+                <td><%= p.nome %></td>
+                <td><%= Number(p.quantidade).toFixed(2) %></td>
+                <td><%= Number(p.faturamento).toFixed(2) %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </section>
+
+    <section>
+      <h3>Vendas por forma de pagamento</h3>
+
+      <% if (vendasPorPagamento.length === 0) { %>
+        <p>Nenhum dado encontrado.</p>
+      <% } else { %>
+        <table class="bf-tabela">
+          <thead>
+            <tr>
+              <th>Forma de pagamento</th>
+              <th>Qtd. de vendas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% vendasPorPagamento.forEach(function(v) { %>
+              <tr>
+                <td><%= v.formaPagamento || 'Não informado' %></td>
+                <td><%= v._count.id %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } %>
+    </section>
+  </main>
+
+  <%- include('./partials/footer') %>
+</body>
+</html>
