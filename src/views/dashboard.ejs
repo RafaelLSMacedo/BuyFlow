@@ -3,84 +3,121 @@
 <head>
   <meta charset="UTF-8" />
   <title>Dashboard - BuyFlow</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <%- include('./partials/header') %>
+  <%- include('./partials/header') -%>
 
   <main class="bf-main">
-    <h2>Dashboard — últimos 30 dias</h2>
+    <div class="bf-page-header">
+      <div>
+        <h2>Dashboard – últimos 30 dias</h2>
+        <p class="bf-page-subtitle">
+          Visão geral de vendas, faturamento e desempenho dos produtos.
+        </p>
+      </div>
+    </div>
 
     <section class="bf-kpis">
       <div class="bf-card">
         <span class="bf-card-label">Total de vendas</span>
-        <span class="bf-card-valor"><%= kpis.totalVendas %></span>
+        <span class="bf-card-value"><%= Number(kpis.totalVendas).toLocaleString("pt-BR") %></span>
       </div>
+
       <div class="bf-card">
         <span class="bf-card-label">Faturamento total</span>
-        <span class="bf-card-valor">R$ <%= Number(kpis.faturamentoTotal).toFixed(2) %></span>
+        <span class="bf-card-value">
+          R$ <%= Number(kpis.faturamentoTotal).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+        </span>
       </div>
+
       <div class="bf-card">
         <span class="bf-card-label">Ticket médio</span>
-        <span class="bf-card-valor">R$ <%= Number(kpis.ticketMedio).toFixed(2) %></span>
+        <span class="bf-card-value">
+          R$ <%= Number(kpis.ticketMedio).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %>
+        </span>
       </div>
     </section>
 
-    <section>
-      <h3>Top 5 produtos (faturamento)</h3>
+    <div class="bf-grid-2">
+      <section class="bf-section">
+        <div class="bf-section-header">
+          <h3>Top 5 produtos (faturamento)</h3>
+        </div>
 
-      <% if (topProdutos.length === 0) { %>
-        <p>Nenhum dado encontrado nos últimos 30 dias.</p>
-      <% } else { %>
-        <table class="bf-tabela">
-          <thead>
-            <tr>
-              <th>Código</th>
-              <th>Produto</th>
-              <th>Qtd. Vendida</th>
-              <th>Faturamento (R$)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% topProdutos.forEach(function(p) { %>
-              <tr>
-                <td><%= p.codigo %></td>
-                <td><%= p.nome %></td>
-                <td><%= Number(p.quantidade).toFixed(2) %></td>
-                <td><%= Number(p.faturamento).toFixed(2) %></td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      <% } %>
-    </section>
+        <% if (topProdutos.length === 0) { %>
+          <p class="bf-empty-state">
+            Nenhum dado encontrado nos últimos 30 dias.
+          </p>
+        <% } else { %>
+          <div class="bf-table-wrapper">
+            <table class="bf-table">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Produto</th>
+                  <th>Qtd. Vendida</th>
+                  <th>Faturamento (R$)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% topProdutos.forEach(function(p) { %>
+                  <tr>
+                    <td><%= p.codigo %></td>
+                    <td><%= p.nome %></td>
+                    <td>
+                      <%= Number(p.quantidade).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      }) %>
+                    </td>
+                    <td>
+                      <%= Number(p.faturamento).toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      }) %>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
 
-    <section>
-      <h3>Vendas por forma de pagamento</h3>
+      <section class="bf-section">
+        <div class="bf-section-header">
+          <h3>Vendas por forma de pagamento</h3>
+        </div>
 
-      <% if (vendasPorPagamento.length === 0) { %>
-        <p>Nenhum dado encontrado.</p>
-      <% } else { %>
-        <table class="bf-tabela">
-          <thead>
-            <tr>
-              <th>Forma de pagamento</th>
-              <th>Qtd. de vendas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% vendasPorPagamento.forEach(function(v) { %>
-              <tr>
-                <td><%= v.formaPagamento || 'Não informado' %></td>
-                <td><%= v._count.id %></td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      <% } %>
-    </section>
+        <% if (vendasPorPagamento.length === 0) { %>
+          <p class="bf-empty-state">Nenhum dado encontrado.</p>
+        <% } else { %>
+          <div class="bf-table-wrapper">
+            <table class="bf-table">
+              <thead>
+                <tr>
+                  <th>Forma de pagamento</th>
+                  <th>Qtd. de vendas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% vendasPorPagamento.forEach(function(v) { %>
+                  <tr>
+                    <td><%= v.formaPagamento || 'Não informado' %></td>
+                    <td>
+                      <%= Number(v._count.id).toLocaleString("pt-BR") %>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </section>
+    </div>
   </main>
 
-  <%- include('./partials/footer') %>
+  <%- include('./partials/footer') -%>
 </body>
 </html>

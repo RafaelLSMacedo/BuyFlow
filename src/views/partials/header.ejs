@@ -1,15 +1,20 @@
 <header class="bf-header">
-  <div class="bf-logo">
-    <h1>BuyFlow</h1>
+  <div class="bf-header-left">
+    <div class="bf-logo">
+      <span class="bf-logo-mark">B</span>
+      <span class="bf-logo-text">BuyFlow</span>
+    </div>
+    <nav class="bf-nav">
+      <a href="/dashboard" class="bf-nav-link">Dashboard</a>
+      <a href="/vendas/curva-abc" class="bf-nav-link">Curva ABC</a>
+      <a href="/relatorios" class="bf-nav-link">Relatórios</a>
+    </nav>
   </div>
-  <nav class="bf-nav">
-    <a href="/dashboard">Dashboard</a>
-    <a href="/vendas/curva-abc">Curva ABC</a>
-    <a href="/relatorios">Relatórios</a>
-  </nav>
-  <div class="bf-user">
-    <span><%= user?.nome %> (<%= user?.papel %>)</span>
-    <a href="/logout">Sair</a>
+  <div class="bf-header-right">
+    <div class="bf-user-info">
+      <span class="bf-user-name"><%= user?.nome %></span>
+      <span class="bf-user-role"><%= user?.papel %></span>
+    </div>
+    <a href="/logout" class="bf-btn bf-btn-outline">Sair</a>
   </div>
 </header>
-<hr />

@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { authRequired } = require("../middlewares/authMiddleware");
+
+const authMiddleware = require("../middlewares/authMiddleware");
 const relatoriosController = require("../controllers/relatoriosController");
 
-// /relatorios
-router.get("/", authRequired, relatoriosController.getRelatorios);
+// Todas as rotas de relatórios exigem login
+router.use(authMiddleware.authRequired);
+
+// Página de relatórios
+router.get("/", relatoriosController.getRelatorios);
 
 module.exports = router;

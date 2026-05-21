@@ -3,27 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <title>Login - BuyFlow</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-  <h1>BuyFlow - Login</h1>
+<body class="bf-login-body">
+  <main class="bf-login-main">
+    <section class="bf-login-card">
+      <div class="bf-login-header">
+        <div class="bf-logo">
+          <span class="bf-logo-mark">B</span>
+          <span class="bf-logo-text">BuyFlow</span>
+        </div>
+        <h1>Entrar</h1>
+        <p class="bf-login-subtitle">
+          Acesse seu painel de vendas e relatórios.
+        </p>
+      </div>
 
-  <% if (error) { %>
-    <p style="color: rgb(0, 225, 255);"><%= error %></p>
-  <% } %>
+      <% if (error) { %>
+        <div class="bf-alert bf-alert-error">
+          <span><%= error %></span>
+        </div>
+      <% } %>
 
-  <form method="POST" action="/login">
-    <div>
-      <label for="email">E-mail</label>
-      <input type="email" id="email" name="email" required />
-    </div>
+      <form method="POST" action="/login" class="bf-login-form">
+        <div class="bf-form-group">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            autocomplete="email"
+          />
+        </div>
 
-    <div>
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" required />
-    </div>
+        <div class="bf-form-group">
+          <label for="senha">Senha</label>
+          <input
+            type="password"
+            id="senha"
+            name="senha"
+            required
+            autocomplete="current-password"
+          />
+        </div>
 
-    <button type="submit">Entrar</button>
-  </form>
+        <button type="submit" class="bf-btn bf-btn-primary bf-login-btn">
+          Entrar
+        </button>
+      </form>
+    </section>
+  </main>
 </body>
 </html>

@@ -1,70 +1,104 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+<head>
   <meta charset="UTF-8" />
   <title>Relatórios - BuyFlow</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-  <%- include('./partials/header') %>
+  <%- include('./partials/header') -%>
 
   <main class="bf-main">
-    <h2>Relatórios de Vendas</h2>
+    <div class="bf-page-header">
+      <div>
+        <h2>Relatórios de Vendas</h2>
+        <p class="bf-page-subtitle">
+          Analise o faturamento diário filtrando por período e canal.
+        </p>
+      </div>
+    </div>
 
     <form method="GET" action="/relatorios" class="bf-filtros">
-      <div>
-        <label for="dataInicio">Data início:</label>
-        <input type="date" id="dataInicio" name="dataInicio" value="<%= filtros.dataInicio || '' %>" />
+      <div class="bf-filtro-group">
+        <label for="dataInicio">Data início</label>
+        <input
+          type="date"
+          id="dataInicio"
+          name="dataInicio"
+          value="<%= filtros.dataInicio || '' %>"
+        />
       </div>
 
-      <div>
-        <label for="dataFim">Data fim:</label>
-        <input type="date" id="dataFim" name="dataFim" value="<%= filtros.dataFim || '' %>" />
+      <div class="bf-filtro-group">
+        <label for="dataFim">Data fim</label>
+        <input
+          type="date"
+          id="dataFim"
+          name="dataFim"
+          value="<%= filtros.dataFim || '' %>"
+        />
       </div>
 
-      <div>
-        <label for="canal">Canal:</label>
+      <div class="bf-filtro-group">
+        <label for="canal">Canal</label>
         <select id="canal" name="canal">
-          <option value="todos" <%= filtros.canal === 'todos' ? 'selected' : '' %>>Todos</option>
-          <option value="ecommerce" <%= filtros.canal === 'ecommerce' ? 'selected' : '' %>>E-commerce</option>
-          <option value="loja_fisica" <%= filtros.canal === 'loja_fisica' ? 'selected' : '' %>>Loja física</option>
-          <option value="marketplace" <%= filtros.canal === 'marketplace' ? 'selected' : '' %>>Marketplace</option>
+          <option value="todos" <%= filtros.canal === 'todos' ? 'selected' : '' %>>
+            Todos
+          </option>
+          <option value="ecommerce" <%= filtros.canal === 'ecommerce' ? 'selected' : '' %>>
+            E-commerce
+          </option>
+          <option value="loja_fisica" <%= filtros.canal === 'loja_fisica' ? 'selected' : '' %>>
+            Loja física
+          </option>
+          <option value="marketplace" <%= filtros.canal === 'marketplace' ? 'selected' : '' %>>
+            Marketplace
+          </option>
         </select>
       </div>
 
-      <button type="submit">Gerar</button>
+      <div class="bf-filtro-actions">
+        <button type="submit" class="bf-btn bf-btn-primary">Gerar</button>
+      </div>
     </form>
 
-    <section>
-      <h3>Resultados</h3>
+    <section class="bf-section">
+      <div class="bf-section-header">
+        <h3>Resultados</h3>
+      </div>
 
       <% if (!resultados || resultados.length === 0) { %>
-        <p>Ainda não há resultados para os filtros selecionados.</p>
+        <p class="bf-empty-state">
+          Ainda não há resultados para os filtros selecionados.
+        </p>
       <% } else { %>
-        <table class="bf-tabela">
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>Canal</th>
-              <th>Qtd. Vendas</th>
-              <th>Faturamento (R$)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% resultados.forEach(function(linha) { %>
+        <div class="bf-table-wrapper">
+          <table class="bf-table">
+            <thead>
               <tr>
-                <td><%= linha.data %></td>
-                <td><%= linha.canal %></td>
-                <td><%= linha.quantidade %></td>
-                <td><%= linha.faturamento.toFixed(2) %></td>
+                <th>Data</th>
+                <th>Canal</th>
+                <th>Qtd. Vendas</th>
+                <th>Faturamento (R$)</th>
               </tr>
-            <% }) %>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <% resultados.forEach(function(linha) { %>
+                <tr>
+                  <td><%= linha.data %></td>
+                  <td><%= linha.canal %></td>
+                  <td><%= Number(linha.quantidade).toLocaleString("pt-BR") %></td>
+                  <td><%= Number(linha.faturamento).toLocaleString("pt-BR", {minimumFractionDigits: 2, maximumFractionDigits: 2,}) %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
       <% } %>
     </section>
   </main>
 
-  <%- include('./partials/footer') %>
+  <%- include('./partials/footer') -%>
 </body>
 </html>
