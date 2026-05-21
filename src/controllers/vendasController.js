@@ -32,7 +32,9 @@ module.exports = {
     try {
       const { inicio, fim } = getPeriodoDatas(periodo);
 
-      // 1) Agrupa itens de venda por produto dentro do período
+      //  --------------Agrupa itens de venda---------------
+
+
       const itensAgrupados = await prisma.itemVenda.groupBy({
         by: ["produtoId"],
         where: {
@@ -64,7 +66,11 @@ module.exports = {
         });
       }
 
-      // 2) Buscar dados dos produtos
+
+      // --------------- Buscar dados dos produtos----------------
+
+
+
       const produtoIds = itensAgrupados.map((i) => i.produtoId);
       const produtos = await prisma.produto.findMany({
         where: { id: { in: produtoIds } },
@@ -76,7 +82,7 @@ module.exports = {
         },
       });
 
-      // 3) Montar lista com faturamento por produto
+      //  ---------------- lista com faturamento por produto ------------------
       let itens = itensAgrupados.map((item) => {
         const produto = produtos.find((p) => p.id === item.produtoId);
 
@@ -90,7 +96,7 @@ module.exports = {
         };
       });
 
-      // 4) Ordenar por faturamento desc
+      // ------------ Ordenar por faturamento------------------------
       itens.sort((a, b) => b.faturamento - a.faturamento);
 
       const faturamentoTotal = itens.reduce(
@@ -98,7 +104,7 @@ module.exports = {
         0
       );
 
-      // 5) Calcular % acumulado e classe ABC
+      // ----------- % acumulado e classe ABC ----------------------
       let acumulado = 0;
       let totalA = 0;
       let totalB = 0;
@@ -129,7 +135,7 @@ module.exports = {
         };
       });
 
-      // 6) Resumo por classe (percentuais já em 0–100)
+      //  Resumo por classe %
       const resumo = {
         totalItens: itens.length,
         classeA_percentual: Number(totalA.toFixed(2)),

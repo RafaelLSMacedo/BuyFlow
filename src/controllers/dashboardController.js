@@ -30,7 +30,10 @@ module.exports = {
       const ticketMedio =
         totalVendas > 0 ? faturamentoTotal / totalVendas : 0;
 
-      // Top 5 produtos mais vendidos (por faturamento) nos últimos 30 dias
+      // Top 5 produtos mais vendidos
+
+
+
       const topProdutos = await prisma.itemVenda.groupBy({
         by: ["produtoId"],
         where: {
@@ -55,6 +58,9 @@ module.exports = {
       });
 
       // Busca os nomes dos produtos do top 5
+
+
+
       const produtoIds = topProdutos.map((p) => p.produtoId);
       const produtos = await prisma.produto.findMany({
         where: { id: { in: produtoIds } },
@@ -71,7 +77,9 @@ module.exports = {
         };
       });
 
-      // Contagem de vendas por forma de pagamento
+      // Contagem de vendas
+
+      
       const vendasPorPagamento = await prisma.venda.groupBy({
         by: ["formaPagamento"],
         where: {
